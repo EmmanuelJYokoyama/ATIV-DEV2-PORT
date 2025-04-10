@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/css/styles.css">
+<section id="certifications" class="py-16 bg-violet-400">
+    <div class="container">
+      <h2 class="title">Certificações</h2>
+      <div class="grid">
+        <% certifications.forEach(cert => { %>
+          <div class="certification">
+            <h3><%= cert.title %></h3>
+            <p><%= cert.description %></p>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+  

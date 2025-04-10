@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= portfolio.title %></title>
+  <script src="/js/script.js"></script>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-purple-400 text-gray-900">
+
+  <!-- Inclui o Navbar -->
+  <%- include("partials/navbar") %>
+
+  <!-- Home Section -->
+  <section id="home" class="hero h-screen flex flex-col justify-center items-center bg-gradient-to-b from-violet-900 via-violet-500 to-violet-400 text-white">
+    <h1 class="text-7xl font-bold mb-4">Olá visitante! Eu sou o Emmanuel Yokoyama</h1>
+    <p class="text-3xl">Desenvolvo aplicacoes fullstack</p>
+  </section>
+  <section id="projects" class="projects">
+    <div class="container">
+      <h2 class="title">Meus Projetos</h2>
+      <div class="grid">
+        <% portfolio.projects.slice(0, 3).forEach(project => { %>
+          <div class="project">
+            <h3><%= project.title %></h3>
+            <p><%= project.description %></p>
+            <a href="<%= project.link %>">Ver mais</a>
+          </div>
+        <% }) %>
+      </div>
+      <div class="button-container">
+        <a href="/projects" class="btn">Ver Todos os Projetos</a>
+      </div>
+    </div>
+  </section>
+  
+  <section id="certifications">
+    <div class="container">
+      <h2 class="title">Certificações</h2>
+      <div class="grid">
+        <% portfolio.certifications.slice(0, 3).forEach(cert => { %>
+          <div class="certification">
+            <h3><%= cert.title %></h3>
+            <p><%= cert.description %></p>
+          </div>
+        <% }) %>
+      </div>
+      <div class="button-container">
+        <a href="/certifications" class="btn">Ver Todas as Certificações</a>
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Inclui o Footer -->
+  <%- include("partials/footer") %>
+
+</body>
+</html>
