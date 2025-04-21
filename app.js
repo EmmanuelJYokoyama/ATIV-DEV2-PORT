@@ -22,6 +22,14 @@ app.use('/projects', (req,res)=>{
   res.render("projects.ejs");
 })
 
+app.use('/about',(req,res) =>{
+  res.render('about.ejs')
+})
+
+app.use('/contato', (req,res)=>{
+  res.render('contacts.ejs')
+})
+
 app.use('/resume', (req,res)=>{
   res.redirect("https://github.com/EmmanuelJYokoyama/Curriculo/blob/main/Currículo%20EmmanuelYokoyama.pdf");
 })
