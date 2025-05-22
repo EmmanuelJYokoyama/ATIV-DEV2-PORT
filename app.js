@@ -10,6 +10,12 @@ app.set("views", path.join(__dirname, "views"));
 
 // Arquivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("public", { setHeaders: (res, path) => {
+  if (path.endsWith(".js")) {
+    res.setHeader("Content-Type", "application/javascript");
+  }
+}}));
+
 
 // Rotas
 app.use("/", indexRouter);
@@ -35,5 +41,5 @@ app.use('/resume', (req,res)=>{
 })
 
 // Inicializar o servidor
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));

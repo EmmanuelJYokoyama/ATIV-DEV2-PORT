@@ -34,6 +34,20 @@ const portfolioData = {
       link: '#',
     },
     {
+      title: 'Meu Dojo - Em desenvolvimento',
+      description: `Este projeto se deu início com um colega que teve como objetivo criar um sistema de gerenciamento de academias de luta
+            Nos juntamos para dar continuidade no projeto e aprimorar suas funcionalidades. Utilizamos React, NodeJS com TypeScript e SASS como tecnologias principais.
+            Realizamos também uma API para cadastro de alunos, consultas e vendas de produtos relacionados à cada esporte.`,
+      link: '#',
+    },
+    {
+      title: 'Meu Dojo - Em desenvolvimento',
+      description: `Este projeto se deu início com um colega que teve como objetivo criar um sistema de gerenciamento de academias de luta
+            Nos juntamos para dar continuidade no projeto e aprimorar suas funcionalidades. Utilizamos React, NodeJS com TypeScript e SASS como tecnologias principais.
+            Realizamos também uma API para cadastro de alunos, consultas e vendas de produtos relacionados à cada esporte.`,
+      link: '#',
+    },
+    {
       title: 'Projeto de Controle de estoque de Lojas - Em desenvolvimento',
       description: `Muitas lojas possuem um CRM de controle de estoque, porém é complicado um controle preciso
             dessas mercadorias. Com o sistema de controle de estoque que desenvolvi, se torna muito mais prático e intuitivo de registrar e

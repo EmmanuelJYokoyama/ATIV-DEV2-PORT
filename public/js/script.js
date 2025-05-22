@@ -1,6 +1,77 @@
-document.addEventListener("DOMContentLoaded", async () =>{
-  // Função Typewriter para o nome digitado dinamicamente
+document.addEventListener("DOMContentLoaded", async () => {
+  await carregarProjetos();
+  await carregarCertificacoes();
+  await carregarGithubProfile();
+  iniciarTypewriter();
+  configurarEventosDeClique();
+});
 
+// 🔹 Função para carregar projetos via API
+async function carregarProjetos() {
+  try {
+    const response = await fetch("http://localhost:3005/api/projects/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    console.log(response)
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const projetos = await response.json();
+    const container = document.getElementById("projects-container");
+    container.innerHTML = "";
+
+    projetos.forEach(projeto => {
+      const card = `
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition-all w-80 mx-auto">
+          <h3 class="text-2xl font-bold text-indigo-800 mb-4">${projeto.title}</h3>
+          <p class="text-gray-600 mb-4">${projeto.description}</p>
+          <a href="${projeto.link}" class="text-blue-500 hover:underline">Ver mais</a>
+        </div>
+      `;
+      container.innerHTML += card;
+    });
+  } catch (error) {
+    console.error("Erro ao carregar projetos:", error);
+  }
+}
+
+
+// 🔹 Função para carregar certificações via API
+async function carregarCertificacoes() {
+  try {
+    const response = await fetch("http://localhost:3005/api/certifications/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    const certificacoes = await response.json();
+
+    const container = document.getElementById("certifications-container");
+    container.innerHTML = "";
+
+    certificacoes.forEach(cert => {
+      const card = `
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition-all w-80 mx-auto">
+          <h3 class="text-2xl font-bold text-indigo-800 mb-4">${cert.title}</h3>
+          <p class="text-gray-600 mb-4">${cert.description}</p>
+        </div>
+      `;
+      container.innerHTML += card;
+    });
+  } catch (error) {
+    console.error("Erro ao carregar certificações:", error);
+  }
+}
+
+// 🔹 Função para carregar perfil do GitHub
+async function carregarGithubProfile() {
   const githubProfile = document.getElementById("github-profile");
 
   try {
@@ -22,96 +93,80 @@ document.addEventListener("DOMContentLoaded", async () =>{
   } catch (error) {
     githubProfile.innerHTML = `<p class="text-red-500">Erro ao carregar os dados do GitHub.</p>`;
   }
-  const nameElement = document.getElementById("nome-digitado");
-  const texts = [
-    "Olá visitante, eu sou Emmanuel Yokoyama",
-    "Bem vindo ao meu portfólio!",
-    "Apaixonado por Tecnologia e por novas invenções!"
-  ];
-  let textIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
+}
 
-  function typeWriter() {
-    const currentText = texts[textIndex];
 
-    if (!isDeleting && charIndex <= currentText.length) {
-      nameElement.innerHTML = currentText.substring(0, charIndex);
-      charIndex++;
-      setTimeout(typeWriter, 95);
-    } else if (isDeleting && charIndex >= 0) {
-      nameElement.innerHTML = currentText.substring(0, charIndex);
-      charIndex--;
-      setTimeout(typeWriter, 50);
-    } else {
-      isDeleting = !isDeleting;
+// 🔹 Adiciona eventos de clique nos projetos e certificações
+function configurarEventosDeClique() {
+  const links = {
+    projeto1: "https://www.inicepg.univap.br/cd/INIC_2023/anais/arquivos/RE_0528_0429_01.pdf",
+    projeto2: "https://github.com/Draco-Imperium/API_FATEC1",
+    projeto3: "#",
+    certificado1: "http://www.wagnerscj.com.br/cti30/certificados/8f201620bd24bb1e26131efcd33a1d80.pdf",
+    certificado2: "../images/certificado_trabalho-aceito_ICEIJID0528.pdf",
+    certificado4: "../images/INOVADORES20242.pdf",
+  };
 
-      if (!isDeleting) {
-        textIndex = (textIndex + 1) % texts.length;
-      }
-
-      setTimeout(typeWriter, 1000);
+  Object.keys(links).forEach(id => {
+    const element = document.querySelector(`.${id}`);
+    if (element) {
+      element.addEventListener("click", () => {
+        if (links[id] === "#") {
+          window.alert("Projeto em desenvolvimento!");
+        } else {
+          window.location.href = links[id];
+        }
+      });
     }
-  }
-
-  typeWriter();
-
-  // Adiciona eventos de clique nos projetos
-  const projectElement = document.querySelector(".projeto1");
-  const projectElement2 = document.querySelector(".projeto2");
-  const projectElement3 = document.querySelector(".projeto3");
-  const certificado1 = document.querySelector(".cert1");
-  const certificado2 = document.querySelector(".cert2");
-  const certificado4 = document.querySelector(".cert4");
-
-  projectElement.addEventListener("click", function () {
-    window.location.href =
-      "https://www.inicepg.univap.br/cd/INIC_2023/anais/arquivos/RE_0528_0429_01.pdf";
   });
+}
 
-  projectElement2.addEventListener("click", function () {
-    window.location.href = "https://github.com/Draco-Imperium/API_FATEC1";
-  });
-
-  projectElement3.addEventListener("click", function () {
-    window.location.href = "#";
-    window.alert("Projeto em desenvolvimento!");
-  });
-
-  certificado1.addEventListener("click", function () {
-    window.location.href =
-      "http://www.wagnerscj.com.br/cti30/certificados/8f201620bd24bb1e26131efcd33a1d80.pdf";
-  });
-
-  certificado2.addEventListener("click", function () {
-    window.location.href =
-      "../images/certificado_trabalho-aceito_ICEIJID0528.pdf";
-  });
-
-  certificado4.addEventListener("click", function () {
-    window.location.href = "../images/INOVADORES20242.pdf";
-  });
-
-  // Manipulação de menu mobile usando jQuery
-  $(document).ready(function () {
-    $("#menu-button").on("click", function () {
-      // Check if the menu is hidden
-      if ($("#mobile-menu").is(":hidden")) {
-        // Show the menu with a slide down animation and fade in
-        $("#mobile-menu")
-          .removeClass("hidden")
-          .hide()
-          .slideDown(500)
-          .css({ opacity: 0 })
-          .animate({ opacity: 1 }, 500);
-      } else {
-        // Hide the menu with a slide up animation and fade out
-        $("#mobile-menu").animate({ opacity: 0 }, 500, function () {
-          $(this).slideUp(500, function () {
-            $(this).addClass("hidden");
-          });
+// 🔹 Manipulação de menu mobile usando jQuery
+$(document).ready(function () {
+  $("#menu-button").on("click", function () {
+    const menu = $("#mobile-menu");
+    if (menu.is(":hidden")) {
+      menu.removeClass("hidden").hide().slideDown(500).css({ opacity: 0 }).animate({ opacity: 1 }, 500);
+    } else {
+      menu.animate({ opacity: 0 }, 500, function () {
+        $(this).slideUp(500, function () {
+          $(this).addClass("hidden");
         });
-      }
-    });
+      });
+    }
   });
+});
+
+
+document.getElementById("openModalBtn").addEventListener("click", () => {
+  document.getElementById("modal").classList.remove("hidden");
+});
+
+document.getElementById("cancelBtn").addEventListener("click", () => {
+  document.getElementById("modal").classList.add("hidden");
+});
+
+document.getElementById("projectForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const link = document.getElementById("link").value;
+
+  try {
+    const response = await fetch("http://localhost:3005/api/projects", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, description, link })
+    });
+
+    if (!response.ok) throw new Error("Erro ao adicionar projeto");
+
+    // Fecha o modal e atualiza a lista
+    document.getElementById("modal").classList.add("hidden");
+    document.getElementById("projectForm").reset();
+    await carregarProjetos(); // Recarrega os projetos
+  } catch (error) {
+    alert("Erro ao adicionar projeto: " + error.message);
+  }
 });

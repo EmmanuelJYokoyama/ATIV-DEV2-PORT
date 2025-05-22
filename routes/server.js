@@ -1,13 +1,19 @@
 const express = require("express");
-const cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+const cors = require("cors");
+
+app.use(cors({
+  origin: "http://localhost:3001", // apenas seu frontend pode acessar
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json()); // Permite JSON no body
 app.use(express.urlencoded({ extended: true }))
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3005;
 
 // Rotas da API
 const projectRoutes = require("./projects");
