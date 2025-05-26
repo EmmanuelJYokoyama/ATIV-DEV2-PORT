@@ -136,37 +136,3 @@ $(document).ready(function () {
     }
   });
 });
-
-
-document.getElementById("openModalBtn").addEventListener("click", () => {
-  document.getElementById("modal").classList.remove("hidden");
-});
-
-document.getElementById("cancelBtn").addEventListener("click", () => {
-  document.getElementById("modal").classList.add("hidden");
-});
-
-document.getElementById("projectForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const title = document.getElementById("title").value;
-  const description = document.getElementById("description").value;
-  const link = document.getElementById("link").value;
-
-  try {
-    const response = await fetch("http://localhost:3005/api/projects", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, description, link })
-    });
-
-    if (!response.ok) throw new Error("Erro ao adicionar projeto");
-
-    // Fecha o modal e atualiza a lista
-    document.getElementById("modal").classList.add("hidden");
-    document.getElementById("projectForm").reset();
-    await carregarProjetos(); // Recarrega os projetos
-  } catch (error) {
-    alert("Erro ao adicionar projeto: " + error.message);
-  }
-});
