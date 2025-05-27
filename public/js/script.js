@@ -2,11 +2,44 @@ document.addEventListener("DOMContentLoaded", async () => {
   await carregarProjetos();
   await carregarCertificacoes();
   await carregarGithubProfile();
-  iniciarTypewriter();
   configurarEventosDeClique();
 });
 
 // 🔹 Função para carregar projetos via API
+// async function carregarProjetos() {
+//   try {
+//     const response = await fetch("http://localhost:3005/api/projects/", {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json"
+//       }
+//     });
+
+//     console.log(response)
+
+//     if (!response.ok) {
+//       throw new Error(`Erro HTTP: ${response.status}`);
+//     }
+
+//     const projetos = await response.json();
+//     const container = document.getElementById("projects-container");
+//     container.innerHTML = "";
+
+//     projetos.forEach(projeto => {
+//       const card = `
+//         <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition-all w-80 mx-auto">
+//           <h3 class="text-2xl font-bold text-indigo-800 mb-4">${projeto.title}</h3>
+//           <p class="text-gray-600 mb-4">${projeto.description}</p>
+//           <a href="${projeto.link}" class="text-blue-500 hover:underline">Ver mais</a>
+//         </div>
+//       `;
+//       container.innerHTML += card;
+//     });
+//   } catch (error) {
+//     console.error("Erro ao carregar projetos:", error);
+//   }
+// }
+
 async function carregarProjetos() {
   try {
     const response = await fetch("http://localhost:3005/api/projects/", {
@@ -15,8 +48,6 @@ async function carregarProjetos() {
         "Content-Type": "application/json"
       }
     });
-
-    console.log(response)
 
     if (!response.ok) {
       throw new Error(`Erro HTTP: ${response.status}`);
@@ -27,11 +58,20 @@ async function carregarProjetos() {
     container.innerHTML = "";
 
     projetos.forEach(projeto => {
+      const tecnologiasHTML = projeto.technologies && projeto.technologies.length
+        ? `<div class="flex flex-wrap gap-2 mt-2">
+             ${projeto.technologies.map(tech => `
+               <span class="bg-indigo-100 text-indigo-800 px-2 py-1 text-xs rounded-full">${tech.name}</span>
+             `).join("")}
+           </div>`
+        : "";
+
       const card = `
         <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition-all w-80 mx-auto">
-          <h3 class="text-2xl font-bold text-indigo-800 mb-4">${projeto.title}</h3>
+          <h3 class="text-2xl font-bold text-indigo-800 mb-2">${projeto.title}</h3>
           <p class="text-gray-600 mb-4">${projeto.description}</p>
-          <a href="${projeto.link}" class="text-blue-500 hover:underline">Ver mais</a>
+          <a href="${projeto.link}" target="_blank" class="text-blue-500 hover:underline">Ver mais</a>
+          ${tecnologiasHTML}
         </div>
       `;
       container.innerHTML += card;

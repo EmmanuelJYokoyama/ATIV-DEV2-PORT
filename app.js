@@ -17,6 +17,7 @@ app.use(express.static("public", { setHeaders: (res, path) => {
 }}));
 
 
+
 // Rotas
 app.use("/", indexRouter);
 
@@ -34,6 +35,10 @@ app.use('/about',(req,res) =>{
 
 app.use('/contato', (req,res)=>{
   res.render('contacts.ejs')
+})
+
+app.use('/tecnologias', (req,res)=>{
+  res.render('tecnologias.ejs')
 })
 
 app.use('/resume', (req,res)=>{

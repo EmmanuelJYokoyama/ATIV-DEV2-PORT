@@ -13,15 +13,31 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Listar projetos
+// Listar projetos com filtro por tecnologia
 router.get("/", async (req, res) => {
+  const { tecnologiaId } = req.query;
+
   try {
-    const [projects] = await db.query("SELECT * FROM projects");
+    let query = `
+     SELECT DISTINCT p.* FROM projects p
+      LEFT JOIN projetosxtecnologia px ON p.id = px.projeto_id
+      LEFT JOIN tecnologias t ON px.tecnologia_id = t.id
+    `;
+    const params = [];
+
+    if (tecnologiaId) {
+      query += " WHERE t.id = ?";
+      params.push(tecnologiaId);
+    }
+
+    const [projects] = await db.query(query, params);
     res.status(200).json(projects);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
+
 
 // Atualizar projeto
 router.put("/:id", async (req, res) => {
