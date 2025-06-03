@@ -18,9 +18,11 @@ const PORT = process.env.PORT || 3005;
 // Rotas da API
 const projectRoutes = require("./projects");
 const certificationRoutes = require("./certifications");
+const tecnologiesRoutes = require("./tecnologies")
 
 app.use("/api/projects", projectRoutes);
 app.use("/api/certifications", certificationRoutes);
+app.use("/api/tecnologies", tecnologiesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
